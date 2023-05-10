@@ -25,6 +25,10 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
+  bool get _isFavoriteScreen {
+    return _selectedPageIndex == 1;
+  }
+
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -56,6 +60,12 @@ class _TabsScreenState extends State<TabsScreen> {
 
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
+
+    if (_isFavoriteScreen) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (ctx) => const TabsScreen()),
+      );
+    }
 
     if (identifier == 'filters') {
       final result = await Navigator.of(context).push<Map<Filter, bool>>(
@@ -98,7 +108,7 @@ class _TabsScreenState extends State<TabsScreen> {
       availableMeals: availableMeals,
     );
 
-    if (_selectedPageIndex == 1) {
+    if (_isFavoriteScreen) {
       activePage = MealsScreen(
         meals: _favoriteMeals,
         onToggleFavorite: _toggleMealFavoriteStatus,
