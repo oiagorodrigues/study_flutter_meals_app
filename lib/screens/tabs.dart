@@ -30,13 +30,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   void _setScreen(String identifier) async {
     Navigator.of(context).pop();
 
-    if (_isFavoriteScreen) {
+    if (identifier == 'meals' && _isFavoriteScreen) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (ctx) => const TabsScreen()),
       );
-    }
-
-    if (identifier == 'filters') {
+    } else if (identifier == 'filters') {
       Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(builder: (ctx) => const FiltersScreen()),
       );
